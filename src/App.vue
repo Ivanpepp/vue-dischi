@@ -1,28 +1,48 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div v-for="(element, index) in dischiGroup" :key="index" class="col-lg-3 col-md-4 col-6 dischi-container mb-3 mx-3">
+            <Dischi :disco='element'/> 
+            </div>
+        </div>
+    </div>
+      
+      
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import Dischi from './components/Dischi.vue'
+import axios from 'axios'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Dischi,
+  },
+  data: function(){
+    return{
+      dischiGroup: [],
+    }
+  },
+  created: function(){
+    axios.get('https://flynn.boolean.careers/exercises/api/array/music')
+    .then(response =>{
+      this.dischiGroup = response.data.response.slice();
+    })
   }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import 'style/general.scss';
+.dischi-container{
+    height: 500px;
+    width: 300px;
+    background-color: #2e3a46;
+    color: white;
+   
 }
 </style>
